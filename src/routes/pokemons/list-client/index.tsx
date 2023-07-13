@@ -16,7 +16,7 @@ export default component$(() => {
     isLoading: false,
     pokemons: [],
   });
-
+ // 
   // useVisibleTask$(async({track}) => {
   //   track(() => pokemonState.currentPage);
   //   const pokemons = await getSmallPokemons(pokemonState.currentPage * 10);
