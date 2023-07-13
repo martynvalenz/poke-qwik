@@ -1,5 +1,5 @@
 import { component$, useSignal, $ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import {type DocumentHead, useNavigate } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 
 // import Counter from '~/components/starter/counter/counter';
@@ -8,6 +8,7 @@ import { PokemonImage } from '~/components/pokemons/pokemon-image';
 // import Starter from '~/components/starter/next-steps/next-steps';
 
 export default component$(() => {
+  const nav = useNavigate();
   const pokemonId = useSignal<number>(1); // primitivos
   const showBackImage = useSignal<boolean>(false); // primitivos
   const isVisible = useSignal<boolean>(false); // primitivos
@@ -18,12 +19,22 @@ export default component$(() => {
     pokemonId.value += value;
   })
 
+  const goToPokemon = $(() => {
+    nav(`/pokemon/${pokemonId.value}/`);
+  });
+
   return (
     <>
       <span class="text-2x">Buscador simple</span>
       <span class="text-9xl">{pokemonId.value}</span>
       {/* <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId.value}.png`} alt="Imagen de pokemon" style={{ width:'200px' }} /> */}
-      <PokemonImage id={pokemonId.value } backImage={showBackImage.value} isVisible={isVisible.value}  />
+      {/* <Link href={`/pokemon/${pokemonId.value}/`}> */}
+      <div onClick$={async() => 
+        await goToPokemon()
+      }>
+        <PokemonImage id={pokemonId.value } backImage={showBackImage.value} isVisible={isVisible.value}  />
+      </div>
+      {/* </Link> */}
       <div class="pt-2">
         <button onClick$={() => changePokemonId(-1) } class="btn btn-primary mr-2">Anterior</button>
         <button onClick$={() => changePokemonId(1) } class="btn btn-primary mr-2">Siguiente</button>
@@ -36,7 +47,7 @@ export default component$(() => {
 
 export const head: DocumentHead = {
   title: 'PokeQwik',
-  meta: [
+  meta: [ 
     {
       name: 'description',
       content: 'Esta es mi primera aplicación en Qwik',
