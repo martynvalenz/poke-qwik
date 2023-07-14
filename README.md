@@ -65,4 +65,4 @@ npm run build # or `yarn build`
 ```
 
 ## Configure ENV variables
-Rename the file __.env.template__ to __.env__ and add the variables
+Rename the file `.env.template` to `.env` and add the variables
