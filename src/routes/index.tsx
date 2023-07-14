@@ -1,6 +1,7 @@
-import { component$, useSignal, $ } from '@builder.io/qwik';
+import { component$, $, useContext } from '@builder.io/qwik';
 import {type DocumentHead, useNavigate } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { PokemonGameContext } from '~/context';
 
 // import Counter from '~/components/starter/counter/counter';
 // import Hero from '~/components/starter/hero/hero';
@@ -9,37 +10,38 @@ import { PokemonImage } from '~/components/pokemons/pokemon-image';
 
 export default component$(() => {
   const nav = useNavigate();
-  const pokemonId = useSignal<number>(1); // primitivos
-  const showBackImage = useSignal<boolean>(false); // primitivos
-  const isVisible = useSignal<boolean>(false); // primitivos
-  // const pokemonIdw = useStore('pikachu'); // primitivos
+  // const pokemonId = useSignal<number>(1);
+  // const showBackImage = useSignal<boolean>(false);
+  // const isVisible = useSignal<boolean>(false);
+  const pokemonGame = useContext(PokemonGameContext);
+  // const pokemonIdw = useStore('pikachu');
   const changePokemonId = $((value:number) => {
-    if((pokemonId.value + value) <= 0) return;
-    else if((pokemonId.value + value) > 898) return pokemonId.value = 1;
-    pokemonId.value += value;
+    if((pokemonGame.pokemonId + value) <= 0) return;
+    else if((pokemonGame.pokemonId + value) > 898) return pokemonGame.pokemonId = 1;
+    pokemonGame.pokemonId += value;
   })
 
   const goToPokemon = $(() => {
-    nav(`/pokemon/${pokemonId.value}/`);
+    nav(`/pokemon/${pokemonGame.pokemonId}/`);
   });
 
   return (
     <>
       <span class="text-2x">Buscador simple</span>
-      <span class="text-9xl">{pokemonId.value}</span>
-      {/* <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId.value}.png`} alt="Imagen de pokemon" style={{ width:'200px' }} /> */}
-      {/* <Link href={`/pokemon/${pokemonId.value}/`}> */}
+      <span class="text-9xl">{pokemonGame.pokemonId}</span>
+      {/* <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonGame.pokemonId}.png`} alt="Imagen de pokemon" style={{ width:'200px' }} /> */}
+      {/* <Link href={`/pokemon/${pokemonGame.pokemonId}/`}> */}
       <div onClick$={async() => 
         await goToPokemon()
       }>
-        <PokemonImage id={pokemonId.value } backImage={showBackImage.value} isVisible={isVisible.value}  />
+        <PokemonImage id={pokemonGame.pokemonId } backImage={pokemonGame.showBackImage} isVisible={pokemonGame.isVisible}  />
       </div>
       {/* </Link> */}
       <div class="pt-2">
         <button onClick$={() => changePokemonId(-1) } class="btn btn-primary mr-2">Anterior</button>
         <button onClick$={() => changePokemonId(1) } class="btn btn-primary mr-2">Siguiente</button>
-        <button onClick$={() => showBackImage.value = !showBackImage.value } class="btn btn-accent">Voltear</button>
-        <button onClick$={() => isVisible.value = !isVisible.value } class="btn btn-accent">{!isVisible.value ? 'Ocultar':'Revelar'}</button>
+        <button onClick$={() => pokemonGame.showBackImage = !pokemonGame.showBackImage } class="btn btn-accent mr-2">Voltear</button>
+        <button onClick$={() => pokemonGame.isVisible = !pokemonGame.isVisible } class="btn btn-accent">{pokemonGame.isVisible ? 'Ocultar':'Revelar'}</button>
       </div>
     </>
   );
