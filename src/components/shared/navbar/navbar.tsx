@@ -23,10 +23,10 @@ export default component$(() => {
             <Link href="/counter">Counter</Link>
           </li>
           <li>
-            <Link href="/pokemons/list-ssr">SSR-List</Link>
+            <Link href="/list-ssr">SSR-List</Link>
           </li>
           <li>
-            <Link href="/pokemons/list-client/">Client-List</Link>
+            <Link href="/list-client/">Client-List</Link>
           </li>
         </ul>
       </div>
