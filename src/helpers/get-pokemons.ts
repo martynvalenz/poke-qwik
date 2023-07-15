@@ -1,4 +1,4 @@
-import { PokemonListResponse, SmallPokemon } from "~/interfaces";
+import type { PokemonListResponse, SmallPokemon } from "~/interfaces";
 
 export const getSmallPokemons = async(offset:number = 0, limit:number=10):Promise<SmallPokemon[]> => {
   const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);

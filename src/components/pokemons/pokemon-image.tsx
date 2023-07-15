@@ -28,7 +28,7 @@ export const PokemonImage = component$(({id,size = 200, backImage = false, isVis
         alt="Imagen de pokemon"
         src={imageUrl.value }
         style={{
-        width:`${size}px`}}
+        width:`${size}px`,height:'auto'}}
         onLoad$={() => {
           setTimeout(() => { 
             imageLoaded.value = true
