@@ -6,7 +6,7 @@ interface Props {
   isVisible?:boolean;
 }
 
-export const PokemonImage = component$(({id,size = 200, backImage = false, isVisible = false}:Props) => {
+export const PokemonImage = component$(({id,size = 200, backImage = false, isVisible = true}:Props) => {
   const imageLoaded = useSignal(false);
   useTask$(({track}) => {
     track(() => id);
@@ -14,6 +14,7 @@ export const PokemonImage = component$(({id,size = 200, backImage = false, isVis
   });
 
   const imageUrl = useComputed$(() => {
+    if(id === '') return '';
     return (backImage)
       ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`
       : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -35,7 +36,7 @@ export const PokemonImage = component$(({id,size = 200, backImage = false, isVis
         }}
         class={[{ 
           'hidden': !imageLoaded.value,
-          'brightness-0':isVisible,
+          'brightness-0':!isVisible,
         }, 'transition-all']}
       />
     </div>
